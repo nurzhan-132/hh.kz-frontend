@@ -1,3 +1,8 @@
+# Hello, this is my temporary README file.
+## The project is under development stage. You can see all changes and commits in the [dev] branch. For more information, checkout the [dev] branch.
+## Once the project is complete, code will be merged into the [main] branch. 
+<br/><br/><br/><br/>    
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
