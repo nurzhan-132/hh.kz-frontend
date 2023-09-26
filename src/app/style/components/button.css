@@ -26,3 +26,11 @@
     background-color: #1785E5;
     color: #fff;
 }
+
+.button-secondary-bordered {
+    border: 1px solid #babdbf;
+    background-color: #fafafa;
+}
+.button-secondary-bordered:hover {
+    background-color: #ededed;
+}
