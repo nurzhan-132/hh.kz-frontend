@@ -1,11 +1,58 @@
 'use strict'
 
-export default function ModalAddExp({close}) {    
-    const onChageMonth = () => {}
-    const onChangeYear = () => {}
+import { useState } from "react"
 
-    const onChageMonthEnd = () => {}
-    const onChangeYearEnd = () => {}
+export default function ModalAddExp({close, addWorkingHistory}) {    
+    const [start_date, setStartDate] = useState(new Date())
+    const [end_date, setEndDate] = useState(new Date())
+    const [company_name, setCompanyName] = useState('')
+    const [company_description, setCompanyDescription] = useState('') 
+    const [responsibilities, setResponsibilities] = useState('') 
+
+    const onChageMonth = (e) => {
+        let date = start_date;
+        date.setMonth(e.target.value);
+        setStartDate(date);
+    }
+    const onChangeYear = (e) => {
+        let date = start_date;
+        date.setFullYear(e.target.value);
+        setStartDate(date);
+    }
+
+    const onChageMonthEnd = (e) => {
+        let date = end_date;
+        date.setMonth(e.target.value);
+        setEndDate(date);
+    }
+    const onChangeYearEnd = (e) => {
+        let date = end_date;
+        date.setFullYear(e.target.value);
+        setEndDate(date);
+    }
+    
+    const onChangeCompanyName = (e) => {
+        setCompanyName(e.target.value)
+    }
+
+    const onChangeCompanyDesc = (e) => {
+        setCompanyDescription(e.target.value)
+    }
+
+    const onChangeResponsibilities = (e) => {
+        setResponsibilities(e.target.value)
+    }
+
+    const save = () => {
+        const workingHistory = {
+            start_date,
+            end_date,
+            company_name,
+            company_description,
+            responsibilities
+        }
+        addWorkingHistory(workingHistory);
+    }
 
     return(
         <div className="modal">
@@ -16,51 +63,52 @@ export default function ModalAddExp({close}) {
                 <h4>Начало работы</h4>
                 <div className="selectdate selectdate-noday">
                     <select onChange={onChageMonth} placeholder="Месяц" className="input">
-                        <option value="">Январь</option>
-                        <option value="">Февраль</option>
-                        <option value="">Март</option>
-                        <option value="">Апрель</option>
-                        <option value="">Май</option>
-                        <option value="">Июнь</option>
-                        <option value="">Июль</option>
-                        <option value="">Август</option>
-                        <option value="">Сентябрь</option>
-                        <option value="">Октябрь</option>
-                        <option value="">Ноябрь</option>
-                        <option value="">Декабрь</option>
+                        <option disabled>Выберите месяц</option>
+                        <option value="0">Январь</option>
+                        <option value="1">Февраль</option>
+                        <option value="2">Март</option>
+                        <option value="3">Апрель</option>
+                        <option value="4">Май</option>
+                        <option value="5">Июнь</option>
+                        <option value="6">Июль</option>
+                        <option value="7">Август</option>
+                        <option value="8">Сентябрь</option>
+                        <option value="9">Октябрь</option>
+                        <option value="10">Ноябрь</option>
+                        <option value="11">Декабрь</option>
                     </select>
                     <input type="text" placeholder="Год" onChange={onChangeYear} className="input"/>
                 </div>  
                 <h4>Конец работы</h4>     
                 <div className="selectdate selectdate-noday">
-                    <select onChange={onChageMonth} placeholder="Месяц" className="input">
-                        <option value="">Январь</option>
-                        <option value="">Февраль</option>
-                        <option value="">Март</option>
-                        <option value="">Апрель</option>
-                        <option value="">Май</option>
-                        <option value="">Июнь</option>
-                        <option value="">Июль</option>
-                        <option value="">Август</option>
-                        <option value="">Сентябрь</option>
-                        <option value="">Октябрь</option>
-                        <option value="">Ноябрь</option>
-                        <option value="">Декабрь</option>
+                    <select onChange={onChageMonthEnd} placeholder="Месяц" className="input">
+                        <option value="0">Январь</option>
+                        <option value="1">Февраль</option>
+                        <option value="2">Март</option>
+                        <option value="3">Апрель</option>
+                        <option value="4">Май</option>
+                        <option value="5">Июнь</option>
+                        <option value="6">Июль</option>
+                        <option value="7">Август</option>
+                        <option value="8">Сентябрь</option>
+                        <option value="9">Октябрь</option>
+                        <option value="10">Ноябрь</option>
+                        <option value="11">Декабрь</option>
                     </select>
-                    <input type="text" placeholder="Год" onChange={onChangeYear} className="input"/>
+                    <input type="text" placeholder="Год" onChange={onChangeYearEnd} className="input"/>
                 </div>    
 
                 <h4>Организация</h4>       
-                <input type="text" placeholder="Название компании" className="input"/>  
+                <input type="text" placeholder="Название компании" className="input" onChange={onChangeCompanyName} value={company_name}/>  
 
                 <h4>Должность</h4>       
-                <input type="text" placeholder="Должность" className="input"/>  
+                <input type="text" placeholder="Должность" className="input" onChange={onChangeCompanyDesc} value={company_description}/>  
 
                 <h4>Обязанности на рабочем месте</h4>
-                <textarea className="textarea" placeholder="Опишите что вы делали на работе"></textarea>
+                <textarea className="textarea" placeholder="Опишите что вы делали на работе" onChange={onChangeResponsibilities}>{responsibilities}</textarea>
                 <div className="modal-actions">
                     <button className="button button-primary-bordered" onClick={close}>Отменить</button>
-                    <button className="button button-primary">Сохранить</button>                
+                    <button className="button button-primary" onClick={save}>Сохранить</button>                
                 </div>
             </div>
 

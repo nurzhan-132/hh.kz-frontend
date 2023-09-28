@@ -7,12 +7,16 @@ import Input from '@/components/input'
 import AutoCompleteSelect from '@/components/AutoCompleteSelect'
 import SelectDate from '@/components/SelectDate'
 import ModalAddExp from '@/components/ModalAddExp'
+import WorkingHistory from '@/components/WorkingHistory'
+import AutoCompleteTags from '@/components/AutoCompleteTags'
 import { END_POINT } from '@/config/end-point'
 
 export default function CreateResume() {
     const [cities, setCities] = useState([])
     const [countries, setCountries] = useState([])
+    const [skills, setSkills] = useState([])    
     const [modalExpIsOpen, setModalExpIsOpen] = useState(false)
+    const [workingHistories, setWorkingHistories] = useState([])
 
     useEffect(() => {
         axios.get(`${END_POINT}/api/region/cities`).then(res => {
@@ -22,6 +26,11 @@ export default function CreateResume() {
         axios.get(`${END_POINT}/api/region/countries`).then(res => {
             setCountries(res.data)
         })
+
+        axios.get(`${END_POINT}/api/skills`).then(res => {
+            console.log(res.data);
+            setSkills(res.data)
+        })
     }, [])
 
     const onSelect = (data) => {
@@ -30,6 +39,18 @@ export default function CreateResume() {
 
     const closeModalExp = () => {
         setModalExpIsOpen(false)
+    }
+
+    const addWorkingHistory = (item) => {
+        setWorkingHistories([...workingHistories, item])
+        closeModalExp()
+    }
+
+    const removeWorkingHistory = (workingHistory) => {
+        let wh = [...workingHistories]
+        let index = workingHistories.indexOf(workingHistory);
+        wh.splice(index, 1);
+        setWorkingHistories(wh)
     }
 
     return (
@@ -51,11 +72,11 @@ export default function CreateResume() {
                     <div className='radio-group'>
                         <div className="radio" >
                             <input type="radio" name='gender' id="g1"/>
-                            <label for="g1">Мужской</label>
+                            <label htmlFor="g1">Мужской</label>
                         </div>
                         <div className="radio" >
                             <input type="radio" name='gender' id="g2"/>
-                            <label for="g2" >Женский</label>
+                            <label htmlFor="g2" >Женский</label>
                         </div>
                     </div>                    
                 </fieldset>
@@ -77,15 +98,21 @@ export default function CreateResume() {
                 </fieldset>
 
                 <h3>Опыт работы</h3>
-                {modalExpIsOpen && <ModalAddExp close={closeModalExp}/>}
+                {modalExpIsOpen && <ModalAddExp close={closeModalExp} addWorkingHistory={addWorkingHistory}/>}
                 <fieldset className="fieldset fieldset-lg">
                     <label>Место работы</label>
                     <div className='exp'>
-                        <div></div>
+                        {workingHistories.map(item => (<WorkingHistory workingHistory={item} remove={removeWorkingHistory}/>))}
                         <button className='button button-primary-bordered' onClick={() => setModalExpIsOpen(true)}>Добавить место работы</button>
                     </div>                    
                 </fieldset>
+
+                <fieldset className="fieldset fieldset-lg">
+                    <label>О себе</label>
+                    <textarea className="textarea" placeholder='Расскажите о себе'></textarea>                    
+                </fieldset>
                 
+                <AutoCompleteTags type="text" label="Ключевые навыки" size="fieldset-md" items={skills} onSelect={onSelect}/>
 
             </div>
         </main>
