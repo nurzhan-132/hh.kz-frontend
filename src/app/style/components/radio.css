@@ -14,3 +14,16 @@
     width: 16px;
     height: 16px;
 }
+
+.checkbox {    
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.checkbox input {    
+    margin: 0;
+    width: 16px;
+    height: 16px;
+}
