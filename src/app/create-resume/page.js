@@ -9,6 +9,7 @@ import SelectDate from '@/components/SelectDate'
 import ModalAddExp from '@/components/ModalAddExp'
 import WorkingHistory from '@/components/WorkingHistory'
 import AutoCompleteTags from '@/components/AutoCompleteTags'
+import AddEducation from '@/components/AddEducation'
 import { END_POINT } from '@/config/end-point'
 
 export default function CreateResume() {
@@ -34,7 +35,6 @@ export default function CreateResume() {
     }, [])
 
     const onSelect = (data) => {
-        console.log(data)
     }
 
     const closeModalExp = () => {
@@ -106,14 +106,14 @@ export default function CreateResume() {
                         <button className='button button-primary-bordered' onClick={() => setModalExpIsOpen(true)}>Добавить место работы</button>
                     </div>                    
                 </fieldset>
-
                 <fieldset className="fieldset fieldset-lg">
                     <label>О себе</label>
                     <textarea className="textarea" placeholder='Расскажите о себе'></textarea>                    
-                </fieldset>
-                
+                </fieldset>                
                 <AutoCompleteTags type="text" label="Ключевые навыки" size="fieldset-md" items={skills} onSelect={onSelect}/>
 
+                <h3>Образование</h3>
+                <AddEducation onChange={() => {}}/>
             </div>
         </main>
     )

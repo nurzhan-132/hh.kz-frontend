@@ -16,6 +16,12 @@
     flex-direction: column;
 }
 
+.tags {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
 .tag {
     display: inline-block;
     padding: 4px;
