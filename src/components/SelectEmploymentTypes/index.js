@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-export default function SelectEmploymentTypes({employmentTypes, label, size}) {
+export default function SelectEmploymentTypes({employmentTypes, label, size, onChange}) {
     const [eTypes, setETypes] = useState([])
 
     const onSelect = (e) => {
@@ -14,7 +14,10 @@ export default function SelectEmploymentTypes({employmentTypes, label, size}) {
             setETypes((prevETypes) => prevETypes.filter((type) => type !== value))
         }
     }
-    console.log(eTypes);
+    
+    useEffect(() => {
+        onChange(eTypes)
+    }, [eTypes])
 
     return(
         <fieldset className={"fieldset " + size}>

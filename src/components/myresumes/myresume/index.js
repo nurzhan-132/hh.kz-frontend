@@ -1,13 +1,13 @@
-export default function Myitem({item}) {
+export default function MyResume({item}) {
     return(
         <div className="card mtb5">
             <a href="" className="h3">{item.position}</a>
             <p>{item.createdAt}</p>
             <h3>Статистика</h3>
             <div className="flex">
-                <a href="">{item.stats.show} показов</a>
-                <a href="">{item.stats.views} просмотров</a>
-                <a href="">{item.stats.applies} приглашений</a>
+                <a href="">{0} показов</a>
+                <a href="">{0} просмотров</a>
+                <a href="">{0} приглашений</a>
             </div>
         </div>
     );
