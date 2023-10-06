@@ -1,6 +1,7 @@
 .header {
     background-color: #222324;
     width: 100%;
+    z-index: 10000;    
 }
 
 .header-inner {

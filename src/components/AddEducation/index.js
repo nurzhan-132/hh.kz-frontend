@@ -3,19 +3,19 @@
 import { useEffect, useState } from "react"
 
 
-export default function AddEducation({onChange}) {
-    const [education, setEducation] = useState([])
+export default function AddEducation({onChange, education}) {
 
     const onChangeData = (e) => {
         let [index, name] = (e.target.name).split("-")
         index = index * 1
         let edu = [...education];
         edu[index][name] = e.target.value;
-        setEducation(edu)
+        onChange(edu)
     }
 
     const newEducation = () => {
-        setEducation([...education, {
+        console.log(education);
+        onChange([...education, {
             level: "Высшее",
             university_name: "",
             faculty: "",
@@ -28,12 +28,8 @@ export default function AddEducation({onChange}) {
         const edu = [...education];
         const index = education.indexOf(ed)
         edu.splice(index, 1)
-        setEducation(edu)
+        onChange(edu)
     }
-
-    useEffect(() => {
-        onChange(education)
-    }, [education])
 
     const educations = education.map((ed, index) => (
         <div className="education" key={index}>

@@ -15,7 +15,7 @@ a {
 .container {
     max-width: 1250px;
     width: 100%;
-    padding: 0 20px;
+    padding: 20px 20px;
     display: block;
     margin: 0 auto;
 }
@@ -42,6 +42,14 @@ a {
 
 .flex-ai-sb {
     align-items: space-between;
+}
+
+.block {
+    display: block;
+}
+
+.none {
+    display: none;
 }
 
 .p0 {
@@ -77,6 +85,9 @@ a {
 }
 .m4 {
     margin: 16px;
+}
+.mt7 {
+    margin-top: 40px;
 }
 .mtb2 {
     margin: 8px 0;

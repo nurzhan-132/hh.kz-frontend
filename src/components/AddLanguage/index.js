@@ -3,19 +3,16 @@
 import { useEffect, useState } from "react"
 
 
-export default function AddLanguage({onChange}) {
-    const [foreignLanguages, setForeignLanguages] = useState([])
+export default function AddLanguage({onChange, foreignLanguages}) {
     const remove = (index) => {
         const updatedLanguages = foreignLanguages.filter((_, i) => i !== index);
-        setForeignLanguages(updatedLanguages);
+        onChange(updatedLanguages);
     }
 
     const onSelect = (e) => {
         const [index, key] = e.target.name.split("-")
         const updatedLanguages = [...foreignLanguages]
         updatedLanguages[index][key] = e.target.value;
-        setForeignLanguages(updatedLanguages)
-
         onChange(updatedLanguages)
     }
 
@@ -41,7 +38,7 @@ export default function AddLanguage({onChange}) {
     return(
         <div className="educations">
             {langs}
-            <a onClick={() => setForeignLanguages([...foreignLanguages, {name: "", level: ""}])}>Добавить язык</a>
+            <a onClick={() => onChange([...foreignLanguages, {name: "", level: ""}])}>Добавить язык</a>
         </div>
     )
 }

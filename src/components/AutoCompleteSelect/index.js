@@ -1,9 +1,10 @@
 'use strict'
 
+import { useEffect } from "react"
 import { useState } from "react"
 import Input from "../input"
 
-export default function AutoCompleteSelect({ label, placeholder, type, size, items, onSelect }) {
+export default function AutoCompleteSelect({ label, placeholder, type, size, items, onSelect, selected }) {
     const [value, setValue] = useState({ name: "" })
 
     const [filteredItems, setFilteredItems] = useState([])
@@ -27,6 +28,12 @@ export default function AutoCompleteSelect({ label, placeholder, type, size, ite
         }
     }
 
+    useEffect(() => {
+        items.map(item => {
+            if(item.id === selected) setValue(item)
+        })
+    }, [selected, items])
+
     return (
         <div className={"autocomplete " + size}>
             <Input 
@@ -43,7 +50,7 @@ export default function AutoCompleteSelect({ label, placeholder, type, size, ite
 
             {filteredItems.length>0 && 
             <div className="dropdown">
-                {filteredItems.map(item => (<a onClick={() => onClick(item)}>{item.name}</a>))}
+                {filteredItems.map((item, index) => (<a key={index} onClick={() => onClick(item)}>{item.name}</a>))}
             </div>}
         </div>
     )
