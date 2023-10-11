@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { authorize, logOut, sendVerificationEmail, verifyCode } from "@/app/store/slices/authSlice";
 
 export default function UserLogin() {
@@ -55,7 +56,7 @@ export default function UserLogin() {
             {step === 1 && <div className="card">
                 <h1>Поиск сотрудников</h1>
                 <p>Размещение вакансий и доступ к базе резюме</p>
-                <button className="button button-primary-bordered">Я ищу сотрудников</button>
+                <Link href="/employer/signin" className="button button-primary-bordered">Я ищу сотрудников</Link>
             </div>}
 
             {step === 2 && <div className="card">
