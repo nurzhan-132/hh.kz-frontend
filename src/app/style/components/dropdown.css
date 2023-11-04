@@ -6,6 +6,7 @@
     border-radius: 4px;
     width: 63%;
     z-index: 3;
+    background-color: #fff;
 }
 
 .dropdown a {

@@ -22,10 +22,8 @@ export default function Vacancy() {
                     <h1>Мои вакансии</h1>
                     <Link className='button button-secondary-bordered' href='create-vacancy'>Создать вакансию</Link>
                 </div>
-                <MyVacancies    />
-
+                <MyVacancies />
             </div>
-
         </main>
     )
 }

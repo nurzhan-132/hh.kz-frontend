@@ -202,7 +202,7 @@ export default function CreateResume() {
                     <label>О себе</label>
                     <textarea className="textarea" placeholder='Расскажите о себе' value={about} onChange={(e) => setAbout(e.target.value)}></textarea>                    
                 </fieldset>                
-                <AutoCompleteTags type="text" label="Ключевые навыки" size="fieldset-md" items={allSkills} onSelect={onSkillsChange} selected={skills.split(',').map(skill => ({ name: skill }))}/>
+                <AutoCompleteTags type="text" label="Ключевые навыки" size="fieldset-md" items={allSkills} onSelect={onSkillsChange}  selected={skills.length>0 ? skills.split(",").map(item => ({name: item})): []}/>
 
                 <h3>Образование</h3>
                 <AddEducation onChange={(eds) => setEducation(eds)} education={education} />

@@ -15,6 +15,11 @@
     height: 16px;
 }
 
+.radio label {
+    margin: 0;
+    font-weight: 400;
+}
+
 .checkbox {    
     display: flex;
     align-items: center;
