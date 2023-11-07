@@ -25,10 +25,10 @@ export default function Header() {
                         <a href="">Помощь</a>
                     </div>
                     <div>
-                        <button className="header-search">
+                        <Link href="/search/vacancy/advanced" className="header-search">
                             <img src="/images/icon-search.svg" alt="" />
                             Поиск
-                        </button>
+                        </Link>
                         {currentUser && currentUser.role && (
                             <Link
                                 href={currentUser.role.name === 'manager' ? '/create-vacancy' : '/create-resume'}

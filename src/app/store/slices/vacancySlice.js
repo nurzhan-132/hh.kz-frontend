@@ -14,7 +14,7 @@ export const vacancySlice = createSlice({
         empTypes: [],
     },
     reducers: {
-        setMyVacancies: (state, action) => {
+        setVacancies: (state, action) => {
             state.vacancies = action.payload.vacancies
         },
         setVacancy: (state, action) => {
@@ -28,7 +28,7 @@ export const vacancySlice = createSlice({
         },
         setCities: (state, action) => {
             state.cities = action.payload
-        },    
+        },
         setExperiences: (state, action) => {
             state.experiences = action.payload
         },
@@ -41,12 +41,45 @@ export const vacancySlice = createSlice({
     },
 })
 
-export const { setMyVacancies, setVacancy, handleVacancyDeletion, setSpecializations, setCities, setExperiences, setSkills, setEmpTypes } = vacancySlice.actions
+export const { setVacancies, setVacancy, handleVacancyDeletion, setSpecializations, setCities, setExperiences, setSkills, setEmpTypes } = vacancySlice.actions
 
 export const getMyVacancies = () => async (dispatch) => {
     try {
         const res = await axios.get(`${END_POINT}/api/vacancy`)
-        dispatch(setMyVacancies({vacancies: res.data}))
+        dispatch(setVacancies({ vacancies: res.data }))
+    } catch (e) {
+        alert(e.message)
+    }
+}
+
+export const getSearchedVacancies = (params, router) => async (dispatch) => {
+    try {
+        // const queryString = Object.keys(params)
+        //     .filter((key) => (params[key] !== undefined))
+        //     .map((key) => `${key}=${params[key]}`)
+        //     .join('&');
+        let {
+            q,
+            specializationId,
+            cityId,
+            salary,
+            salary_type,
+            experienceId,
+            employmentTypeId
+        } = params
+
+        let queryString = '?'
+        if (q) queryString += `q=${q}&`
+        if (cityId) queryString += `cityId=${cityId}&`
+        if (specializationId) queryString += `specializationId=${specializationId}&`
+        if (salary) queryString += `salary=${salary}&`
+        if (salary_type) queryString += `salary_type=${salary_type}&`
+        if (experienceId) queryString += `experienceId=${experienceId}&`
+        if (employmentTypeId) queryString += `employmentTypeId=${employmentTypeId}&`
+
+        router.push(`/search/vacancy${queryString}`)
+        const res = await axios.get(`${END_POINT}/api/vacancy/search${queryString}`)
+        dispatch(setVacancies({ vacancies: res.data }))
     } catch (e) {
         alert(e.message)
     }
@@ -61,49 +94,49 @@ export const getSpecializations = () => async (dispatch) => {
     }
 }
 
-export const getCities = () => async(dispatch) => {
+export const getCities = () => async (dispatch) => {
     try {
         const res = await axios.get(`${END_POINT}/api/region/cities`)
         dispatch(setCities(res.data))
-        
+
     } catch (e) {
-        alert(e.message)        
+        alert(e.message)
     }
 }
 
-export const getExperiences = () => async(dispatch) => {
+export const getExperiences = () => async (dispatch) => {
     try {
         const res = await axios.get(`${END_POINT}/api/experiences`)
-        dispatch(setExperiences(res.data))        
+        dispatch(setExperiences(res.data))
     } catch (e) {
-        alert(e.message)        
+        alert(e.message)
     }
 }
 
-export const getSkills = () => async(dispatch) => {
+export const getSkills = () => async (dispatch) => {
     try {
         const res = await axios.get(`${END_POINT}/api/skills`)
-        dispatch(setSkills(res.data))        
+        dispatch(setSkills(res.data))
     } catch (e) {
-        alert(e.message)        
+        alert(e.message)
     }
 }
 
-export const getEmpTypes = () => async(dispatch) => {
+export const getEmpTypes = () => async (dispatch) => {
     try {
         const res = await axios.get(`${END_POINT}/api/employment-types`)
-        dispatch(setEmpTypes(res.data))        
+        dispatch(setEmpTypes(res.data))
     } catch (e) {
-        alert(e.message)        
+        alert(e.message)
     }
 }
 
 export const createVacancy = (vacancy, router) => async (dispatch) => {
     try {
         const res = await axios.post(`${END_POINT}/api/vacancy`, vacancy)
-        router.push('/vacancy')       
+        router.push('/vacancy')
     } catch (e) {
-        alert(e.message)        
+        alert(e.message)
     }
 }
 
@@ -112,18 +145,18 @@ export const deleteVacancy = (id) => async (dispatch) => {
         const res = await axios.delete(`${END_POINT}/api/vacancy/${id}`)
         dispatch(handleVacancyDeletion(id))
     } catch (e) {
-        alert(e.message)        
+        alert(e.message)
     }
 }
 
-// export const getResumeById = (id) => async (dispatch) => {
-//     try {
-//         const res = await axios.get(`${END_POINT}/api/resume/${id}`)
-//         dispatch(setResume({ resume: res.data }))        
-//     } catch (e) {
-//         alert(e.message)        
-//     }
-// }
+export const getVacancyById = (id) => async (dispatch) => {
+    try {
+        const res = await axios.get(`${END_POINT}/api/vacancy/${id}`)
+        dispatch(setVacancy({ vacancy: res.data }))
+    } catch (e) {
+        alert(e.message)
+    }
+}
 
 // export const createResume = (resume, router) => async (dispatch) => {
 //     try {

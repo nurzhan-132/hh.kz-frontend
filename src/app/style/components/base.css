@@ -104,3 +104,7 @@ a {
 .ck-powered-by {
     display: none;
 }
+
+.gap-2 {
+    gap: 8px;
+}
