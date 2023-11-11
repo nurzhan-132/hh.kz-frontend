@@ -1,13 +1,29 @@
 'use client'
 
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { logOut } from "@/app/store/slices/authSlice";
+import jwt_decode from "jwt-decode"
+import { authorize, logOut } from "@/app/store/slices/authSlice";
 import Link from "next/link";
 
 export default function Header() {
     const dispatch = useDispatch();
     const isAuth = useSelector(state => state.auth.isAuth)
     const currentUser = useSelector(state => state.auth.currentUser)
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            let decodedToken = jwt_decode(token)
+            if (decodedToken.exp * 1000 >= Date.now()) {
+                dispatch(authorize({ token }))
+            } else {
+                localStorage.removeItem("token")
+            }
+        }
+    }, [])
+
     return (
         <header className="header">
             <div className="container">
@@ -21,6 +37,9 @@ export default function Header() {
                             <Link href={currentUser.role.name === 'manager' ? '/vacancy' : '/resumes'}>
                                 {currentUser.role.name === 'manager' ? 'Мои вакансии' : 'Мои резюме'}
                             </Link>
+                        )}
+                        {currentUser && currentUser.role && currentUser.role.name !== 'manager' && (
+                            <Link href='/applies'>Отклики</Link>
                         )}
                         <a href="">Помощь</a>
                     </div>

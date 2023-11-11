@@ -1,9 +1,27 @@
-const DateFormattMonthYear = new Intl.DateTimeFormat('ru', { month: 'long', year: 'numeric' });
 const options = { day: 'numeric', month: 'long', year: 'numeric' };
-
+const fullTimeOptions = {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: false, // Use 24-hour format
+};
+const DateFormattMonthYear = new Intl.DateTimeFormat('ru', { month: 'long', year: 'numeric' });
+const DateFormatDayMonthYear = new Intl.DateTimeFormat('ru', options);
+const DateFormatFull = new Intl.DateTimeFormat('ru', fullTimeOptions);
 
 const dateFormatterMonthYear = (date) => {
-    return DateFormattMonthYear.format(new Date(date)) 
+    return DateFormattMonthYear.format(new Date(date))
+}
+
+const dateFormatterDayMonthYear = (date) => {
+    return DateFormatDayMonthYear.format(new Date(date))
+}
+
+const dateFormatterFullDateAndTime = (date) => {
+    return DateFormatFull.format(new Date(date))
 }
 
 const formatBirthdateAndAge = (dateString, gender) => {
@@ -19,7 +37,7 @@ const formatBirthdateAndAge = (dateString, gender) => {
         age--;
     }
     const formattedBirthday = birthDate.toLocaleDateString('ru-RU', options);
-    
+
     const genderText = gender === 'Мужской' ? 'родился' : 'родилась';
     return `${age} лет, ${genderText} ${formattedBirthday}`;
 }
@@ -78,4 +96,6 @@ module.exports = {
     formatNumber,
     calculateYearMonthDifference,
     getFullYear,
+    dateFormatterDayMonthYear,
+    dateFormatterFullDateAndTime
 }

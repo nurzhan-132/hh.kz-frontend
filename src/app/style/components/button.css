@@ -16,6 +16,14 @@
     color: #fff;
 }
 
+.button-tertiary {
+    background-color: #4bb24e;
+    color: #fff;
+}
+.button-tertiary:hover {
+    opacity: 0.9;
+}
+
 .button-primary:hover {
     opacity: 0.9;
 }
@@ -37,4 +45,12 @@
 }
 .button-secondary-bordered:hover {
     background-color: #ededed;
+}
+
+.applies-button {
+    max-width: 200px;
+}
+
+.apply {
+    max-width: 300px;
 }

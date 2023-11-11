@@ -86,7 +86,7 @@ export default function CreateVacancy() {
 
                 <h2>Основная информация</h2>
                 <fieldset className="fieldset-vertical">
-                    <label htmlFor="">Название компании</label>
+                    <label htmlFor="">Название вакансии</label>
                     <input type="text" className="input" placeholder="Название" value={name} onChange={e => setName(e.target.value)}/>
                 </fieldset>
                 <fieldset className="fieldset-vertical">
