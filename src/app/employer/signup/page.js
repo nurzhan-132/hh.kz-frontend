@@ -63,6 +63,10 @@ export default function EmployerSignup() {
                             <input className="input" type="text" placeholder="Электронная почта" value={email} onChange={(e) => setEmail(e.target.value)} />
                             <button className="button button-primary" onClick={() => setStep(2)}>Продолжить</button>
                         </form>
+                        <div className='signup-navigate'>
+                                <p>Уже зарегистрированы?</p>
+                                <Link className="link" href="/employer/signin">Войти</Link>
+                            </div>
                         <p className='signup-agreement'>Продолжая регистрацию на сайте любыми доступными способами, вы подтверждаете, что ознакомлены и полностью согласны с условиями использования сайта.</p>
                         {error && Object.keys(error).map((key, index) => (<p key={index} className='error'>{error[key]}</p>))}
                     </div>}

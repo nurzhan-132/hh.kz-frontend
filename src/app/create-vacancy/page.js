@@ -1,7 +1,5 @@
 'use client'
 
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Header from "@/components/header"
 import ModalSelectSpec from "@/components/ModalSelectSpec"
 import AutoCompleteSelect from "@/components/AutoCompleteSelect"
@@ -10,6 +8,7 @@ import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getSpecializations, getCities, getExperiences, getSkills, getEmpTypes, createVacancy } from "@/app/store/slices/vacancySlice"
 import { useRouter } from 'next/navigation';
+import dynamic from "next/dynamic";
 
 export default function CreateVacancy() {
     const dispatch = useDispatch();
@@ -38,7 +37,7 @@ export default function CreateVacancy() {
     }
 
     const handleSetSpec = (e) => {
-        setSpecializationId(e.target.value*1)
+        setSpecializationId(e.target.value * 1)
         setSpecializationName(e.target.dataset.name)
         closeSpecModal()
     }
@@ -49,7 +48,7 @@ export default function CreateVacancy() {
 
     const onSkillsChange = (data) => {
         const skillNames = data.map(item => item.name).join(",")
-        setSkills(skillNames)      
+        setSkills(skillNames)
     }
 
     useEffect(() => {
@@ -78,90 +77,72 @@ export default function CreateVacancy() {
             }, router))
     }
 
-    return(
+    const Editor = dynamic(() => import('./editor'), { ssr: false })
+
+    return (
         <main>
-            <Header/>
+            <Header />
             <div className="container p7">
                 <h1>Создание вакансии</h1>
 
                 <h2>Основная информация</h2>
                 <fieldset className="fieldset-vertical">
                     <label htmlFor="">Название вакансии</label>
-                    <input type="text" className="input" placeholder="Название" value={name} onChange={e => setName(e.target.value)}/>
+                    <input type="text" className="input" placeholder="Название" value={name} onChange={e => setName(e.target.value)} />
                 </fieldset>
                 <fieldset className="fieldset-vertical">
                     <label htmlFor="">Укажите специализацию</label>
-                    { specializationName && <p>{specializationName}</p> }
-                    <p className="link" onClick={() => setSpecModalOpen(true)}>Указать специализацию</p>    
+                    {specializationName && <p>{specializationName}</p>}
+                    <p className="link" onClick={() => setSpecModalOpen(true)}>Указать специализацию</p>
                 </fieldset>
-                {isSpecModalOpen && <ModalSelectSpec close={closeSpecModal} onChange={handleSetSpec} value={specializationId}/>}
+                {isSpecModalOpen && <ModalSelectSpec close={closeSpecModal} onChange={handleSetSpec} value={specializationId} />}
 
-                <AutoCompleteSelect placeholder="Укажите город для размещения" type="text" label="Где искать сотрудника" size="fieldset-md fieldset-vertical" items={cities} onSelect={(data) => setCityId(data.id)}/>
+                <AutoCompleteSelect placeholder="Укажите город для размещения" type="text" label="Где искать сотрудника" size="fieldset-md fieldset-vertical" items={cities} onSelect={(data) => setCityId(data.id)} />
 
                 <fieldset className="fieldset-vertical fieldset-md">
                     <label htmlFor="">Предпологаемый уровень дохода в месяц</label>
                     <div className="input-group">
-                        <input type="text" className="input" placeholder="От" value={salary_from} onChange={e => setSalaryFrom(e.target.value)}/>
-                        <input type="text" className="input" placeholder="До" value={salary_to} onChange={e => setSalaryTo(e.target.value)}/>     
+                        <input type="text" className="input" placeholder="От" value={salary_from} onChange={e => setSalaryFrom(e.target.value)} />
+                        <input type="text" className="input" placeholder="До" value={salary_to} onChange={e => setSalaryTo(e.target.value)} />
                         <select className="input" name="salary_type" value={salary_type} onChange={(e) => setSalaryType(e.target.value)}>
                             <option value="KZT">KZT</option>
                             <option value="RUB">RUB</option>
                             <option value="USD">USD</option>
-                        </select>           
+                        </select>
                     </div>
                 </fieldset>
 
                 <fieldset className="fieldset-vertical fieldset-md">
                     <label htmlFor="">Адрес</label>
-                    <input type="text" className="input" placeholder="Введите адрес" value={address} onChange={e => setAddress(e.target.value)}/>
+                    <input type="text" className="input" placeholder="Введите адрес" value={address} onChange={e => setAddress(e.target.value)} />
                 </fieldset>
 
                 <fieldset className="fieldset-vertical fieldset-md">
                     <label htmlFor="">Опыт работы</label>
                     <div>
-                        { experiences.map((exp, index) => 
-                        <div key={index} className="radio">
-                            <input name="exp" type="radio" className="input" value={exp.id} onChange={handleExpChange}/>
-                            <label htmlFor="">{exp.duration}</label>
-                        </div>) }                                    
+                        {experiences.map((exp, index) =>
+                            <div key={index} className="radio">
+                                <input name="exp" type="radio" className="input" value={exp.id} onChange={handleExpChange} />
+                                <label htmlFor="">{exp.duration}</label>
+                            </div>)}
                     </div>
                 </fieldset>
 
                 <fieldset className='fieldset-vertical fieldset-md'>
-                    <label htmlFor="">Расскажите про вакансию</label>                    
-                    <CKEditor
-                        editor={ ClassicEditor }
-                        data={ description }
-                        onReady={ editor => {
-                            // You can store the "editor" and use when it is needed.
-                            console.log( 'Editor is ready to use!', editor );
-                        } }
-                        config={ {
-                            toolbar: [ 'bold', 'italic', 'bulletedList', 'numberedList', 'redo' ]
-                        } }
-                        onChange={ ( event, editor ) => {
-                            const data = editor.getData();
-                            setDescription(data)                            
-                        } }
-                        onBlur={ ( event, editor ) => {
-                            console.log( 'Blur.', editor );
-                        } }
-                        onFocus={ ( event, editor ) => {
-                            console.log( 'Focus.', editor );
-                        } }
-                    />
+                    <label htmlFor="">Расскажите про вакансию</label>
+                    <Editor description={description} setDescription={setDescription} />
                 </fieldset>
 
-                <AutoCompleteTags type="text" label="Ключевые навыки" size="fieldset-md fieldset-vertical" items={allSkills} onSelect={onSkillsChange} selected={skills.length>0 ? skills.split(",").map(item => ({name: item})): []}/>
-                
+                <AutoCompleteTags type="text" label="Ключевые навыки" size="fieldset-md fieldset-vertical" items={allSkills} onSelect={onSkillsChange} selected={skills.length > 0 ? skills.split(",").map(item => ({ name: item })) : []} />
+
                 <fieldset className="fieldset-vertical fieldset-md">
                     <label htmlFor="">Тип занятости</label>
                     <div>
-                        { empTypes.map(type => 
-                        <div key={type.id} className="radio">
-                            <input name="emp_type" type="radio" className="input" value={type.id} onChange={e => setEmploymentTypeId(e.target.value)}/>
-                            <label htmlFor="">{type.name}</label>
-                        </div>) }                                    
+                        {empTypes.map(type =>
+                            <div key={type.id} className="radio">
+                                <input name="emp_type" type="radio" className="input" value={type.id} onChange={e => setEmploymentTypeId(e.target.value)} />
+                                <label htmlFor="">{type.name}</label>
+                            </div>)}
                     </div>
                 </fieldset>
 

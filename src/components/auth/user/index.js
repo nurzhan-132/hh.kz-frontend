@@ -44,7 +44,6 @@ export default function UserLogin() {
 
     return (
         <section className="login-page">
-            <span>{isAuth ? "True" : "False"}</span>
             {step === 1 && <div className="card">
                 <h1>Поиск работы</h1>
                 <form action="">

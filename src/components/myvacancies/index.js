@@ -1,5 +1,5 @@
 import MyVacancy from "./myvacancy";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux";
 
 export default function MyVacancies() {
     

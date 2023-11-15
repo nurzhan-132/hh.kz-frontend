@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import Header from '@/components/header'
 import MyApplies from '@/components/MyApplies';
 import { getEmployeeApplies } from "@/app/store/slices/applySlice";
@@ -16,8 +15,7 @@ export default function Applies() {
 
     return (
         <main>
-            <Header />
-            
+            <Header />            
             <div className='container'>
                 <div className='flex flex-ai-c flex-jc-sb pb7'>
                     <h1>Отклики и приглашения</h1>

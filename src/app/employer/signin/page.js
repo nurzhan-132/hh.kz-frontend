@@ -19,7 +19,7 @@ export default function EmployerSignIn() {
         dispatch(signin({
             email,
             password
-        }, router))        
+        }, router))
     }
 
     useEffect(() => {
@@ -41,6 +41,10 @@ export default function EmployerSignIn() {
                             <input className="input" type="text" placeholder="Электронная почта" value={email} onChange={(e) => setEmail(e.target.value)} />
                             <input className="input" type="password" placeholder="Введите пароль" value={password} onChange={(e) => setPassword(e.target.value)} />
                             <button type="button" className="button button-primary" onClick={handleSignin}>Войти</button>
+                            <div className='signup-navigate'>
+                                <p>Еще не зарегистрированы?</p>
+                                <Link className="link" href="/employer/signup">Перейти к регистрации</Link>
+                            </div>
                         </form>
                         {error && Object.keys(error).map((key, index) => (<p key={index} className='error'>{error[key]}</p>))}
                     </div>

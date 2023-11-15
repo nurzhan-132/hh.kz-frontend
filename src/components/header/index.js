@@ -5,9 +5,11 @@ import { useDispatch, useSelector } from "react-redux"
 import jwt_decode from "jwt-decode"
 import { authorize, logOut } from "@/app/store/slices/authSlice";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-export default function Header() {
+export default function Header({page}) {
     const dispatch = useDispatch();
+    const router = useRouter();
     const isAuth = useSelector(state => state.auth.isAuth)
     const currentUser = useSelector(state => state.auth.currentUser)
 
@@ -25,11 +27,10 @@ export default function Header() {
     }, [])
 
     return (
-        <header className="header">
+        <header className={`header${page ? " header-transparent" : ""}`}>
             <div className="container">
                 <div className="header-inner">
                     <div>
-
                         <Link href="/">
                             <img src="/images/hh-logo.svg" alt="HH.KZ" />
                         </Link>
@@ -61,7 +62,7 @@ export default function Header() {
                                 Войти
                             </Link>}
                         {isAuth &&
-                            <a className="header-button" onClick={() => dispatch(logOut())}>
+                            <a className="header-button" onClick={() => dispatch(logOut(router))}>
                                 Выйти
                             </a>
                         }

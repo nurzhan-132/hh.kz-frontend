@@ -4,6 +4,10 @@
     z-index: 10000;    
 }
 
+.header-transparent {
+    background-color: transparent;
+}
+
 .header-inner {
     display: flex;
     justify-content: space-between;

@@ -6,10 +6,10 @@ import { getVacancyById } from '@/app/store/slices/vacancySlice';
 import Header from '@/components/header';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { dateFormatterMonthYear, formatBirthdateAndAge, formatPhoneNumber, formatNumber, calculateYearMonthDifference, getFullYear } from '@/utils/formatter'
+import { dateFormatterMonthYear, formatAgeAndGender, formatPhoneNumber, formatNumber, calculateYearMonthDifference, getFullYear } from '@/utils/formatter'
 import PreLoader from '@/components/PreLoader';
 import { getMyResumes } from '@/app/store/slices/resumeSlice';
-import { createApply, getEmployeeApplies } from '@/app/store/slices/applySlice';
+import { createApply, getEmployeeApplies, getVacancyApplies } from '@/app/store/slices/applySlice';
 
 export default function VacancyPage() {
     const dispatch = useDispatch()
@@ -40,9 +40,16 @@ export default function VacancyPage() {
 
     const didMount = () => {
         dispatch(getVacancyById(id))
-        dispatch(getMyResumes())
-        dispatch(getEmployeeApplies())
     }
+
+    useEffect(() => {
+        if (currentUser && currentUser.role.name === 'employee') {
+            dispatch(getMyResumes())
+            dispatch(getEmployeeApplies())
+        } else if (currentUser) {
+            dispatch(getVacancyApplies(id))
+        }
+    }, [currentUser])
     useEffect(didMount, [])
 
     const hasVacancyData = vacancy && Object.keys(vacancy).length > 0;
@@ -51,11 +58,13 @@ export default function VacancyPage() {
             <Header />
             {hasVacancyData &&
                 <div className='container resume-page'>
-                    <div className='flex flex-ai-c flex-jc-sb ptb-7'>
-                        <h1>{vacancy.name}</h1>
-                        {currentUser && currentUser.id === vacancy.userId && <Link className='button button-secondary-bordered' href={`/edit-vacancy/${vacancy.id}`}>Редактировать</Link>}
-                    </div>
+
                     <div className='card'>
+                        {currentUser && currentUser.id === vacancy.userId && <Link href={`/vacancy/${id}/applies`} className='link'>{applies.length} Соискателей</Link>}
+                        <div className='flex flex-ai-c flex-jc-sb ptb-7'>
+                            <h1>{vacancy.name}</h1>
+                            {currentUser && currentUser.id === vacancy.userId && <Link className='button button-secondary-bordered' href={`/edit-vacancy/${vacancy.id}`}>Редактировать</Link>}
+                        </div>
                         <p>от {formatNumber(vacancy.salary_from)} до {formatNumber(vacancy.salary_to)} {vacancy.salary_type}</p>
                         {vacancy.experience && <p>Требуемый опыт работы: {vacancy.experience.duration}</p>}
                         {vacancy.employmentType && <p>Тип занятости: {vacancy.employmentType.name}</p>}

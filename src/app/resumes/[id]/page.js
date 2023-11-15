@@ -7,13 +7,15 @@ import Header from '@/components/header';
 import MyResumes from '@/components/myresumes'
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { dateFormatterMonthYear, formatBirthdateAndAge, formatPhoneNumber, formatNumber, calculateYearMonthDifference, getFullYear } from '@/utils/formatter'
+import { dateFormatterMonthYear, formatAgeAndGender, formatPhoneNumber, formatNumber, calculateYearMonthDifference, getFullYear } from '@/utils/formatter'
 import PreLoader from '@/components/PreLoader';
 
 export default function ResumePage() {
   const dispatch = useDispatch()
   const { id } = useParams()
   const resume = useSelector((state) => state.resume.resume)
+  const currentUser = useSelector(state => state.auth.currentUser)
+
 
   const didMount = () => {
     dispatch(getResumeById(id))
@@ -28,10 +30,10 @@ export default function ResumePage() {
         <div className='container resume-page'>
           <div className='flex flex-ai-c flex-jc-sb ptb-7'>
             <Link className='link' href="/resumes">К списку резюме</Link>
-            <Link className='button button-secondary-bordered' href={`/edit-resume/${resume.id}`}>Редактировать</Link>
+            {currentUser && currentUser.id === resume.userId && <Link className='button button-secondary-bordered' href={`/edit-resume/${resume.id}`}>Редактировать</Link>}
           </div>
           <h1>{resume.first_name} {resume.last_name}</h1>
-          <p>{resume.gender}, {formatBirthdateAndAge(resume.birthday, resume.gender)} </p>
+          <p>{resume.gender}, {formatAgeAndGender(resume.birthday, resume.gender)} </p>
           <p className='secondary'>Контакты</p>
           <p>{formatPhoneNumber(resume.phone)}</p>
           <p>{resume.email}</p>
@@ -45,7 +47,7 @@ export default function ResumePage() {
           <h3>Опыт работы</h3>
           {resume.workingHistories && resume.workingHistories.map((job, index) => {
             return (
-              <div className='experience' key={index}>
+              <div className='experience' key={job.id}>
                 <div className='experience-date'>
                   <p>{dateFormatterMonthYear(job.start_date)} - {dateFormatterMonthYear(job.end_date)}</p>
                   <p className='experience-date-duration'>{calculateYearMonthDifference(job.start_date, job.end_date)}</p>

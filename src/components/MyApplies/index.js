@@ -1,5 +1,5 @@
 import MyApply from "./MyApply";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux";
 import PreLoader from '@/components/PreLoader';
 import { useState, useEffect } from "react";
 

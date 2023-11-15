@@ -24,7 +24,7 @@ const dateFormatterFullDateAndTime = (date) => {
     return DateFormatFull.format(new Date(date))
 }
 
-const formatBirthdateAndAge = (dateString, gender) => {
+const formatAgeAndGender = (dateString, gender) => {
     const birthDate = new Date(dateString);
     const currentDate = new Date();
 
@@ -40,6 +40,22 @@ const formatBirthdateAndAge = (dateString, gender) => {
 
     const genderText = gender === 'Мужской' ? 'родился' : 'родилась';
     return `${age} лет, ${genderText} ${formattedBirthday}`;
+}
+
+const formatAge = (dateString) => {
+    const birthDate = new Date(dateString);
+    const currentDate = new Date();
+
+    let age = currentDate.getFullYear() - birthDate.getFullYear();
+    if (
+        currentDate.getMonth() < birthDate.getMonth() ||
+        (currentDate.getMonth() === birthDate.getMonth() &&
+            currentDate.getDate() < birthDate.getDate())
+    ) {
+        age--;
+    }
+
+    return `${age} лет`;
 }
 
 const formatPhoneNumber = (phoneNumber) => {
@@ -91,11 +107,12 @@ const getFullYear = (dateString) => {
 
 module.exports = {
     dateFormatterMonthYear,
-    formatBirthdateAndAge,
+    formatAgeAndGender,
     formatPhoneNumber,
     formatNumber,
     calculateYearMonthDifference,
     getFullYear,
     dateFormatterDayMonthYear,
-    dateFormatterFullDateAndTime
+    dateFormatterFullDateAndTime,
+    formatAge,
 }

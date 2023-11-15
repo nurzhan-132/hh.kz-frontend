@@ -5,6 +5,13 @@
     min-height: 100vh;
 }
 
+.bg-1 {
+    background-image: url('/images/background-image-1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
 .signup-page {
     display: flex;
     flex-direction: column;
@@ -15,7 +22,7 @@
 }
 
 .signup-card {
-    width: 300px;
+    width: 350px;
     border-radius: 8px;
     padding: 20px;
     padding-bottom: 40px;
@@ -23,6 +30,13 @@
     -moz-box-shadow: 0px 4px 8px 0px rgba(34, 60, 80, 0.2);
     box-shadow: 0px 4px 8px 0px rgba(34, 60, 80, 0.2);
     background-color: #fff;
+}
+
+.signup-navigate {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
 }
 
 .signup-agreement {
